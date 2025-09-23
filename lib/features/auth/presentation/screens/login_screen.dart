@@ -1,7 +1,9 @@
-import 'package:e_commerce_app/app_theme.dart';
-import 'package:e_commerce_app/custom_text_field.dart';
+import 'package:e_commerce_app/core/app_theme.dart';
+import 'package:e_commerce_app/core/utils/validators.dart';
+import 'package:e_commerce_app/core/widgets/custom_text_field.dart';
+import 'package:e_commerce_app/features/auth/presentation/screens/register_screen.dart';
 import 'package:flutter/material.dart';
-import 'custom_elevated_button.dart';
+import '../../../../core/widgets/custom_elevated_button.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = "/";
@@ -17,26 +19,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-
-  String? emailValidator(String? input) {
-    if (input == null || input.trim().isEmpty) {
-      return "Please enter your email";
-    }
-    if (!RegExp(r"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$").hasMatch(input.trim())) {
-      return "Please enter a valid email (e.g. example@mail.com)";
-    }
-    return null;
-  }
-
-  String? passwordValidator(String? input) {
-    if (input == null || input.trim().isEmpty) {
-      return "Please enter your password";
-    }
-    if (input.trim().length < 6) {
-      return "Password must be at least 6 characters";
-    }
-    return null;
-  }
 
   void login() {
     if (formKey.currentState!.validate()) {
@@ -81,7 +63,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 CustomTextField(
                   hintText: "Enter your email",
                   controller: emailController,
-                  validator: emailValidator,
+                  validator: Validators.validateEmail,
+                  prefixIcon: Icons.email,
                 ),
                 const SizedBox(height: 40),
 
@@ -89,8 +72,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 CustomTextField(
                   hintText: "Enter your password",
                   controller: passwordController,
-                  validator: passwordValidator,
+                  validator: Validators.validatePassword,
                   obscureText: isObscure,
+                  prefixIcon: Icons.lock,
                   suffixIcon: IconButton(
                     icon: Icon(
                       isObscure ? Icons.visibility_off : Icons.visibility,
@@ -124,7 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Center(
                   child: GestureDetector(
                     onTap: () {
-                      //TODO: Navigate to Sign Up Screen
+                      Navigator.pushNamed(context, RegisterScreen.routeName);
                     },
                     child: RichText(
                       text: TextSpan(
