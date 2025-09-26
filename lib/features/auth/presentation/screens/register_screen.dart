@@ -1,7 +1,11 @@
 import 'package:e_commerce_app/core/app_theme.dart';
 import 'package:e_commerce_app/core/utils/validators.dart';
 import 'package:e_commerce_app/core/widgets/custom_text_field.dart';
+import 'package:e_commerce_app/features/auth/data/models/register_request.dart';
+import 'package:e_commerce_app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/widgets/custom_elevated_button.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -23,11 +27,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   void register() {
     if (formKey.currentState!.validate()) {
-      //TODO: Implement Register Functionality
-
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text("Account Created ✅")));
+      BlocProvider.of<AuthCubit>(context).register(
+        RegisterRequest(
+          name: fullNameController.text,
+          phone: phoneController.text,
+          email: emailController.text,
+          password: passwordController.text,
+          rePassword: passwordController.text,
+        ),
+      );
     }
   }
 
@@ -39,13 +47,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
           autovalidateMode: AutovalidateMode.onUserInteraction,
           key: formKey,
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Image.asset('assets/images/routeLogo.png', height: 100),
+                  Image.asset('assets/images/routeLogo.png', height: 100.h),
                   const SizedBox(height: 20),
                   Text(
                     'Create Your Account',
@@ -123,7 +131,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         Navigator.pop(context); // ⬅️ يرجع للـ Login
                       },
                       child: RichText(
-                        text: const TextSpan(
+                        text: TextSpan(
                           text: "Already have an account? ",
                           style: TextStyle(color: Colors.white, fontSize: 14),
                           children: [
@@ -131,7 +139,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               text: "Login",
                               style: TextStyle(
                                 color: Colors.green,
-                                fontSize: 18,
+                                fontSize: 18.sp,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),

@@ -1,8 +1,12 @@
 import 'package:e_commerce_app/core/app_theme.dart';
 import 'package:e_commerce_app/core/utils/validators.dart';
 import 'package:e_commerce_app/core/widgets/custom_text_field.dart';
+import 'package:e_commerce_app/features/auth/data/models/login_request.dart';
+import 'package:e_commerce_app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:e_commerce_app/features/auth/presentation/screens/register_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/widgets/custom_elevated_button.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -20,13 +24,14 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  void login() {
+  Future<void> login() async {
     if (formKey.currentState!.validate()) {
-      //TODO: Implement Login Functionality
-
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text("Login Success ✅")));
+      await BlocProvider.of<AuthCubit>(context).login(
+        LoginRequest(
+          email: emailController.text,
+          password: passwordController.text,
+        ),
+      );
     }
   }
 
@@ -113,16 +118,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: RichText(
                       text: TextSpan(
                         text: "Don't have an account? ",
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                        ),
-                        children: const [
+                        style: TextStyle(color: Colors.white, fontSize: 14.sp),
+                        children: [
                           TextSpan(
                             text: "Sign Up",
                             style: TextStyle(
                               color: Colors.green,
-                              fontSize: 18,
+                              fontSize: 18.sp,
                               fontWeight: FontWeight.bold,
                             ),
                           ),

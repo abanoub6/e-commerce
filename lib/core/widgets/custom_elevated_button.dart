@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomElevatedButton extends StatelessWidget {
   final String text;
@@ -32,13 +33,13 @@ class CustomElevatedButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: width ?? double.infinity,
-      height: height,
+      height: height.h,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: backgroundColor,
           foregroundColor: foregroundColor,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(borderRadius),
+            borderRadius: BorderRadius.circular(borderRadius.sp),
           ),
         ),
         onPressed: onPressed,
@@ -46,7 +47,10 @@ class CustomElevatedButton extends StatelessWidget {
             icon == null
                 ? Text(
                   text,
-                  style: TextStyle(fontSize: fontSize, fontWeight: fontWeight),
+                  style: TextStyle(
+                    fontSize: fontSize.sp,
+                    fontWeight: fontWeight,
+                  ),
                 )
                 : Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -56,7 +60,7 @@ class CustomElevatedButton extends StatelessWidget {
                     Text(
                       text,
                       style: TextStyle(
-                        fontSize: fontSize,
+                        fontSize: fontSize.sp,
                         fontWeight: fontWeight,
                       ),
                     ),

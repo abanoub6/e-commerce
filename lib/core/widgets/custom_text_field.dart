@@ -1,5 +1,6 @@
 import 'package:e_commerce_app/core/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomTextField extends StatelessWidget {
   final String hintText;
@@ -52,10 +53,10 @@ class CustomTextField extends StatelessWidget {
         prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
         suffixIcon: suffixIcon,
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
+          borderRadius: BorderRadius.all(Radius.circular(borderRadius.r)),
         ),
       ),
-      style: const TextStyle(color: AppTheme.primaryColor, fontSize: 18),
+      style: TextStyle(color: AppTheme.primaryColor, fontSize: 18.sp),
     );
   }
 }
