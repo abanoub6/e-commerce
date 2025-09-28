@@ -3,3 +3,7 @@ class ApiConstants {
   static const String registerEndPoint = 'auth/signup';
   static const String loginEndPoint = 'auth/signin';
 }
+
+class KeysConstants {
+  static const String token = "token";
+}

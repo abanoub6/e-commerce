@@ -3,7 +3,7 @@ import 'package:e_commerce_app/features/auth/data/dataSource/remoteDatabase/auth
 import 'package:e_commerce_app/features/auth/data/models/login_request.dart';
 import 'package:e_commerce_app/features/auth/data/models/login_response.dart';
 import 'package:e_commerce_app/features/auth/data/models/register_request.dart';
-import 'package:e_commerce_app/features/auth/data/models/register_response/register_response.dart';
+import 'package:e_commerce_app/features/auth/data/models/register_response.dart';
 
 class AuthRepository {
   final AuthRemoteDataSource authRemoteDataSource;

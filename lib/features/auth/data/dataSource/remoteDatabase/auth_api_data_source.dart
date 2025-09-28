@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
-import 'package:e_commerce_app/core/constants/api_constants.dart';
+import 'package:e_commerce_app/core/constants/constants.dart';
 import 'package:e_commerce_app/features/auth/data/dataSource/remoteDatabase/auth_remote_data_source.dart';
 import 'package:e_commerce_app/features/auth/data/models/login_request.dart';
 import 'package:e_commerce_app/features/auth/data/models/login_response.dart';
 import 'package:e_commerce_app/features/auth/data/models/register_request.dart';
-import 'package:e_commerce_app/features/auth/data/models/register_response/register_response.dart';
+import 'package:e_commerce_app/features/auth/data/models/register_response.dart';
 
 class AuthApiDataSource extends AuthRemoteDataSource {
   Dio dio = Dio(BaseOptions(baseUrl: ApiConstants.baseUrl));
