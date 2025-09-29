@@ -18,12 +18,7 @@ class Validators {
     if (value == null || value.isEmpty) {
       return "Password is required";
     }
-    final passwordRegex = RegExp(
-      r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#\$&*~]).{8,}$',
-    );
-    if (!passwordRegex.hasMatch(value)) {
-      return "Password must be 8+ chars, include upper, lower, number & symbol";
-    }
+
     return null;
   }
 

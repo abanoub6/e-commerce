@@ -1,5 +1,6 @@
 import 'package:e_commerce_app/core/app_bloc_observer.dart';
 import 'package:e_commerce_app/core/app_theme.dart';
+import 'package:e_commerce_app/core/dependency-injection/service_locator.dart';
 import 'package:e_commerce_app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:e_commerce_app/features/auth/presentation/screens/login_screen.dart';
 import 'package:e_commerce_app/features/auth/presentation/screens/register_screen.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() {
+  setup();
   Bloc.observer = AppBlocObserver();
   runApp(const MyApp());
 }

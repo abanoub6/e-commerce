@@ -1,5 +1,6 @@
-import 'package:e_commerce_app/features/auth/data/dataSource/localDatabase/auth_shared_prefrences_data_source.dart';
-import 'package:e_commerce_app/features/auth/data/dataSource/remoteDatabase/auth_api_data_source.dart';
+import 'package:e_commerce_app/core/dependency-injection/service_locator.dart';
+import 'package:e_commerce_app/features/auth/data/dataSource/localDatabase/auth_local_data_source.dart';
+import 'package:e_commerce_app/features/auth/data/dataSource/remoteDatabase/auth_remote_data_source.dart';
 import 'package:e_commerce_app/features/auth/data/models/login_request.dart';
 import 'package:e_commerce_app/features/auth/data/models/register_request.dart';
 import 'package:e_commerce_app/features/auth/presentation/cubit/auth_cubit_states.dart';
@@ -10,8 +11,8 @@ class AuthCubit extends Cubit<AuthCubitStates> {
   late final AuthRepository repo;
   AuthCubit() : super(InitialState()) {
     repo = AuthRepository(
-      authRemoteDataSource: AuthApiDataSource(),
-      authLocalDataSource: AuthSharedPrefrencesDataSource(),
+      authRemoteDataSource: serviceLocator<AuthRemoteDataSource>(),
+      authLocalDataSource: serviceLocator<AuthLocalDataSource>(),
     );
   }
 
