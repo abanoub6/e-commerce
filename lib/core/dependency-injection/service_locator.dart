@@ -1,14 +1,8 @@
-import 'package:e_commerce_app/features/auth/data/dataSource/localDatabase/auth_local_data_source.dart';
-import 'package:e_commerce_app/features/auth/data/dataSource/localDatabase/auth_shared_prefrences_data_source.dart';
-import 'package:e_commerce_app/features/auth/data/dataSource/remoteDatabase/auth_api_data_source.dart';
-import 'package:e_commerce_app/features/auth/data/dataSource/remoteDatabase/auth_remote_data_source.dart';
+import 'package:e_commerce_app/core/dependency-injection/service_locator.config.dart';
 import 'package:get_it/get_it.dart';
+import 'package:injectable/injectable.dart';
 
 final serviceLocator = GetIt.instance;
 
-void setup() {
-  serviceLocator.registerSingleton<AuthRemoteDataSource>(AuthApiDataSource());
-  serviceLocator.registerSingleton<AuthLocalDataSource>(
-    AuthSharedPrefrencesDataSource(),
-  );
-}
+@InjectableInit()
+Future<void> configureDependencies() => serviceLocator.init();

@@ -9,9 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-void main() {
-  setup();
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // call the configureDependencies which call the init function
+  // to register all the dependencies inside the service locator
   Bloc.observer = AppBlocObserver();
+  await configureDependencies();
   runApp(const MyApp());
 }
 
@@ -21,7 +24,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AuthCubit(),
+      create: (context) => serviceLocator<AuthCubit>(),
 
       child: ScreenUtilInit(
         designSize: const Size(360, 690),

@@ -6,14 +6,12 @@ import 'package:e_commerce_app/features/auth/data/models/login_request.dart';
 import 'package:e_commerce_app/features/auth/data/models/login_response.dart';
 import 'package:e_commerce_app/features/auth/data/models/register_request.dart';
 import 'package:e_commerce_app/features/auth/data/models/register_response.dart';
+import 'package:injectable/injectable.dart';
 
+@Singleton(as: AuthRemoteDataSource)
 class AuthApiDataSource extends AuthRemoteDataSource {
-  Dio dio = Dio(
-    BaseOptions(
-      baseUrl: ApiConstants.baseUrl,
-      receiveDataWhenStatusError: true,
-    ),
-  );
+  final Dio dio;
+  AuthApiDataSource(this.dio);
   @override
   Future<RegisterResponse> register(RegisterRequest request) async {
     try {

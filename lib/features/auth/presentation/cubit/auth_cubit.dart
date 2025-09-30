@@ -1,20 +1,14 @@
-import 'package:e_commerce_app/core/dependency-injection/service_locator.dart';
-import 'package:e_commerce_app/features/auth/data/dataSource/localDatabase/auth_local_data_source.dart';
-import 'package:e_commerce_app/features/auth/data/dataSource/remoteDatabase/auth_remote_data_source.dart';
 import 'package:e_commerce_app/features/auth/data/models/login_request.dart';
 import 'package:e_commerce_app/features/auth/data/models/register_request.dart';
 import 'package:e_commerce_app/features/auth/presentation/cubit/auth_cubit_states.dart';
 import 'package:e_commerce_app/features/auth/data/repository/auth_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 
+@singleton
 class AuthCubit extends Cubit<AuthCubitStates> {
   late final AuthRepository repo;
-  AuthCubit() : super(InitialState()) {
-    repo = AuthRepository(
-      authRemoteDataSource: serviceLocator<AuthRemoteDataSource>(),
-      authLocalDataSource: serviceLocator<AuthLocalDataSource>(),
-    );
-  }
+  AuthCubit(this.repo) : super(InitialState());
 
   Future<void> register(RegisterRequest request) async {
     emit(RegisterLoadingSate());

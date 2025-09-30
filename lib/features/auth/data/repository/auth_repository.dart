@@ -7,7 +7,9 @@ import 'package:e_commerce_app/features/auth/data/models/login_request.dart';
 import 'package:e_commerce_app/features/auth/data/models/login_response.dart';
 import 'package:e_commerce_app/features/auth/data/models/register_request.dart';
 import 'package:e_commerce_app/features/auth/data/models/register_response.dart';
+import 'package:injectable/injectable.dart';
 
+@singleton
 class AuthRepository {
   final AuthRemoteDataSource authRemoteDataSource;
   final AuthLocalDataSource authLocalDataSource;
