@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
                 HomeScreen.routeName: (context) => const HomeScreen(),
               },
 
-              initialRoute: LoginScreen.routeName,
+              initialRoute: HomeScreen.routeName,
               theme: AppTheme.lightTheme,
               darkTheme: AppTheme.darkTheme,
               themeMode: ThemeMode.light,

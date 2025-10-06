@@ -20,8 +20,14 @@ import 'package:e_commerce_app/features/auth/data/dataSource/remoteDatabase/auth
     as _i573;
 import 'package:e_commerce_app/features/auth/data/dataSource/remoteDatabase/auth_remote_data_source.dart'
     as _i531;
-import 'package:e_commerce_app/features/auth/data/repository/auth_repository.dart'
-    as _i547;
+import 'package:e_commerce_app/features/auth/data/repository/auth_repository_imp.dart'
+    as _i163;
+import 'package:e_commerce_app/features/auth/domain/repository/auth_repository.dart'
+    as _i867;
+import 'package:e_commerce_app/features/auth/domain/use-cases/login_use_case.dart'
+    as _i799;
+import 'package:e_commerce_app/features/auth/domain/use-cases/register_use_case.dart'
+    as _i672;
 import 'package:e_commerce_app/features/auth/presentation/cubit/auth_cubit.dart'
     as _i130;
 import 'package:get_it/get_it.dart' as _i174;
@@ -48,14 +54,23 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i531.AuthRemoteDataSource>(
       () => _i573.AuthApiDataSource(gh<_i361.Dio>()),
     );
-    gh.singleton<_i547.AuthRepository>(
-      () => _i547.AuthRepository(
+    gh.singleton<_i867.AuthRepository>(
+      () => _i163.AuthRepositoryImp(
         authRemoteDataSource: gh<_i531.AuthRemoteDataSource>(),
         authLocalDataSource: gh<_i502.AuthLocalDataSource>(),
       ),
     );
+    gh.singleton<_i799.LoginUseCase>(
+      () => _i799.LoginUseCase(gh<_i867.AuthRepository>()),
+    );
+    gh.singleton<_i672.RegisterUseCase>(
+      () => _i672.RegisterUseCase(gh<_i867.AuthRepository>()),
+    );
     gh.singleton<_i130.AuthCubit>(
-      () => _i130.AuthCubit(gh<_i547.AuthRepository>()),
+      () => _i130.AuthCubit(
+        gh<_i799.LoginUseCase>(),
+        gh<_i672.RegisterUseCase>(),
+      ),
     );
     return this;
   }

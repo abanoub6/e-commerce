@@ -6,12 +6,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 @Singleton(as: AuthLocalDataSource)
 class AuthSharedPrefrencesDataSource extends AuthLocalDataSource {
-  final SharedPreferences prefs;
-  AuthSharedPrefrencesDataSource(this.prefs);
+  final SharedPreferences _prefs;
+  AuthSharedPrefrencesDataSource(this._prefs);
   @override
   Future<void> saveToken(String token) async {
     try {
-      await prefs.setString(KeysConstants.token, token);
+      await _prefs.setString(KeysConstants.token, token);
     } catch (exeption) {
       throw LocalExeption(exeption.toString());
     }
@@ -20,7 +20,7 @@ class AuthSharedPrefrencesDataSource extends AuthLocalDataSource {
   @override
   Future<String> getToken() async {
     try {
-      return prefs.getString(KeysConstants.token)!;
+      return _prefs.getString(KeysConstants.token)!;
     } catch (exeption) {
       throw LocalExeption(exeption.toString());
     }
@@ -29,7 +29,7 @@ class AuthSharedPrefrencesDataSource extends AuthLocalDataSource {
   @override
   Future<void> clearToken() async {
     try {
-      prefs.remove(KeysConstants.token);
+      _prefs.remove(KeysConstants.token);
     } catch (exeption) {
       throw LocalExeption(exeption.toString());
     }
