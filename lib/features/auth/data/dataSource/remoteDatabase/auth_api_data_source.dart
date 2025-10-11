@@ -15,12 +15,11 @@ class AuthApiDataSource extends AuthRemoteDataSource {
   @override
   Future<RegisterResponse> register(RegisterRequest request) async {
     try {
-      final response = await _dio.post(
+      final json = await _dio.post(
         ApiConstants.registerEndPoint,
         data: request.toJson(),
       );
-      final responseBody = RegisterResponse.fromJson(response.data);
-      return responseBody;
+      return RegisterResponse.fromJson(json.data);
     } on DioException catch (exeption) {
       throw RemoteExeption(
         exeption.response?.data["message"] ?? "Some thing went wrong",

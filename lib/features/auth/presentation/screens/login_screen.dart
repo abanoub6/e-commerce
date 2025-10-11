@@ -6,7 +6,7 @@ import 'package:e_commerce_app/features/auth/data/models/login_request.dart';
 import 'package:e_commerce_app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:e_commerce_app/features/auth/presentation/cubit/auth_cubit_states.dart';
 import 'package:e_commerce_app/features/auth/presentation/screens/register_screen.dart';
-import 'package:e_commerce_app/features/home/home_screen.dart';
+import 'package:e_commerce_app/features/home/presentation/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -65,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Image.asset('assets/images/routeLogo.png', height: 100),
+                  // Image.asset('assets/images/routeLogo.png', height: 100),
                   const SizedBox(height: 20),
                   Text(
                     'Welcome Back To Route',

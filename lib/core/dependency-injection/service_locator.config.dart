@@ -30,6 +30,18 @@ import 'package:e_commerce_app/features/auth/domain/use-cases/register_use_case.
     as _i672;
 import 'package:e_commerce_app/features/auth/presentation/cubit/auth_cubit.dart'
     as _i130;
+import 'package:e_commerce_app/features/home/data/data-sources/remote-data-source/home_remote_data_source.dart'
+    as _i412;
+import 'package:e_commerce_app/features/home/data/data-sources/remote-data-source/home_remote_data_source_api.dart'
+    as _i420;
+import 'package:e_commerce_app/features/home/data/repository/home_repository_imp.dart'
+    as _i372;
+import 'package:e_commerce_app/features/home/domain/repository/home_repository.dart'
+    as _i535;
+import 'package:e_commerce_app/features/home/domain/use-cases/categories_use_case.dart'
+    as _i600;
+import 'package:e_commerce_app/features/home/presentation/cubit/home_cubit.dart'
+    as _i647;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
@@ -47,12 +59,21 @@ extension GetItInjectableX on _i174.GetIt {
       preResolve: true,
     );
     gh.lazySingleton<_i361.Dio>(() => registerModule.dio);
+    gh.singleton<_i412.HomeRemoteDataSource>(
+      () => _i420.HomeRemoteDataSourceApi(gh<_i361.Dio>()),
+    );
     gh.singleton<_i502.AuthLocalDataSource>(
       () =>
           _i1029.AuthSharedPrefrencesDataSource(gh<_i460.SharedPreferences>()),
     );
     gh.singleton<_i531.AuthRemoteDataSource>(
       () => _i573.AuthApiDataSource(gh<_i361.Dio>()),
+    );
+    gh.singleton<_i535.HomeRepository>(
+      () => _i372.HomeRepositoryImp(gh<_i412.HomeRemoteDataSource>()),
+    );
+    gh.singleton<_i600.CategoriesUseCase>(
+      () => _i600.CategoriesUseCase(gh<_i535.HomeRepository>()),
     );
     gh.singleton<_i867.AuthRepository>(
       () => _i163.AuthRepositoryImp(
@@ -65,6 +86,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.singleton<_i672.RegisterUseCase>(
       () => _i672.RegisterUseCase(gh<_i867.AuthRepository>()),
+    );
+    gh.lazySingleton<_i647.HomeCubit>(
+      () => _i647.HomeCubit(gh<_i600.CategoriesUseCase>()),
     );
     gh.singleton<_i130.AuthCubit>(
       () => _i130.AuthCubit(

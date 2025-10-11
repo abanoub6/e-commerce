@@ -4,7 +4,8 @@ import 'package:e_commerce_app/core/dependency-injection/service_locator.dart';
 import 'package:e_commerce_app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:e_commerce_app/features/auth/presentation/screens/login_screen.dart';
 import 'package:e_commerce_app/features/auth/presentation/screens/register_screen.dart';
-import 'package:e_commerce_app/features/home/home_screen.dart';
+import 'package:e_commerce_app/features/home/main_screen.dart';
+import 'package:e_commerce_app/features/home/presentation/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -37,9 +38,10 @@ class MyApp extends StatelessWidget {
                 LoginScreen.routeName: (context) => LoginScreen(),
                 RegisterScreen.routeName: (context) => const RegisterScreen(),
                 HomeScreen.routeName: (context) => const HomeScreen(),
+                MainScreen.routeName: (context) => MainScreen(),
               },
 
-              initialRoute: HomeScreen.routeName,
+              initialRoute: LoginScreen.routeName,
               theme: AppTheme.lightTheme,
               darkTheme: AppTheme.darkTheme,
               themeMode: ThemeMode.light,

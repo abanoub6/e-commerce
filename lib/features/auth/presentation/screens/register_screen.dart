@@ -5,7 +5,7 @@ import 'package:e_commerce_app/core/widgets/custom_text_field.dart';
 import 'package:e_commerce_app/features/auth/data/models/register_request.dart';
 import 'package:e_commerce_app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:e_commerce_app/features/auth/presentation/cubit/auth_cubit_states.dart';
-import 'package:e_commerce_app/features/home/home_screen.dart';
+import 'package:e_commerce_app/features/home/presentation/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -68,7 +68,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Image.asset('assets/images/routeLogo.png', height: 100.h),
+                    // Image.asset('assets/images/routeLogo.png', height: 100.h),
                     const SizedBox(height: 20),
                     Text(
                       'Create Your Account',

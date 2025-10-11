@@ -8,7 +8,7 @@ class UiUtiles {
       barrierDismissible: false,
       builder:
           (_) => PopScope(
-            canPop: false,
+            canPop: true,
             child: Dialog(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
