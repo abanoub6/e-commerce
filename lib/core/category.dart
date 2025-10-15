@@ -1,7 +1,7 @@
 class Category {
   final String id;
   final String name;
-  final String? slug;
+  final String slug;
   final String image;
   final DateTime? createdAt;
   final DateTime? updatedAt;
@@ -9,7 +9,7 @@ class Category {
   const Category({
     required this.id,
     required this.name,
-    this.slug,
+    required this.slug,
     required this.image,
     this.createdAt,
     this.updatedAt,
@@ -18,7 +18,7 @@ class Category {
   factory Category.fromJson(Map<String, dynamic> json) => Category(
     id: json['_id'],
     name: json['name'],
-    slug: json['slug'] as String?,
+    slug: json['slug'] as String,
     image: json['image'],
     createdAt:
         json['createdAt'] == null
