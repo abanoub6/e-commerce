@@ -4,6 +4,7 @@ import 'package:e_commerce_app/features/products/domain/entities/product_entity.
 extension ProductMapper on Product {
   ProductEntity toEntity() {
     return ProductEntity(
+      imageCover: imageCover,
       sold: sold,
       images: images,
       ratingsQuantity: ratingsQuantity,

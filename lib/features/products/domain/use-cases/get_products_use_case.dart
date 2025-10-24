@@ -5,10 +5,10 @@ import 'package:e_commerce_app/features/products/domain/repository/product_repos
 import 'package:injectable/injectable.dart';
 
 @LazySingleton()
-class GetProducts {
+class GetProductsUseCase {
   final ProductRepository repository;
 
-  GetProducts(this.repository);
+  GetProductsUseCase(this.repository);
   Future<Either<Failure, List<ProductEntity>>> call(String? categoryId) async {
     return await repository.getProducts(categoryId);
   }

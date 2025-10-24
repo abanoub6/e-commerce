@@ -6,6 +6,7 @@ import 'package:e_commerce_app/features/auth/presentation/screens/login_screen.d
 import 'package:e_commerce_app/features/auth/presentation/screens/register_screen.dart';
 import 'package:e_commerce_app/core/main_screen.dart';
 import 'package:e_commerce_app/features/home/presentation/screens/home_screen.dart';
+import 'package:e_commerce_app/features/product-details/presentation/screens/product_details_screen.dart';
 import 'package:e_commerce_app/features/products/presentation/screens/product_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -41,9 +42,11 @@ class MyApp extends StatelessWidget {
                 HomeScreen.routeName: (context) => const HomeScreen(),
                 MainScreen.routeName: (context) => MainScreen(),
                 ProductScreen.routeName: (context) => const ProductScreen(),
+                ProductDetailsScreen.routeName:
+                    (context) => const ProductDetailsScreen(),
               },
 
-              initialRoute: ProductScreen.routeName,
+              initialRoute: HomeScreen.routeName,
               theme: AppTheme.lightTheme,
               darkTheme: AppTheme.darkTheme,
               themeMode: ThemeMode.light,

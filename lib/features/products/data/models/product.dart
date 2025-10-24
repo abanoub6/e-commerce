@@ -42,7 +42,7 @@ class Product {
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
     sold: json['sold'] as int,
-    images: json['images'] as List<String>,
+    images: (json['images'] as List<dynamic>).cast(),
 
     ratingsQuantity: json['ratingsQuantity'] as int,
     id: json['_id'] as String,

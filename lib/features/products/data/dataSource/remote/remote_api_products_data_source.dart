@@ -10,17 +10,31 @@ class RemoteApiProductsDataSource implements RemoteProductsDataSource {
   final Dio dio;
 
   RemoteApiProductsDataSource(this.dio);
+
   @override
   Future<ProductsResponse> getProducts(String? categoryId) async {
     try {
       final response = await dio.get(
         ApiConstants.productsEndPoint,
-        // send categoryId or not send it if it's null
         queryParameters: {if (categoryId != null) 'category': categoryId},
       );
+
+      if (response.statusCode != 200 ||
+          response.data == null ||
+          response.data["data"].isEmpty) {
+        throw RemoteExeption("Failed to fetch products");
+      }
+
       return ProductsResponse.fromJson(response.data);
-    } on DioException catch (exeption) {
-      throw RemoteExeption(exeption.message ?? 'Some thing went wrong');
+    } catch (exception) {
+      if (exception is DioException) {
+        final message =
+            exception.response?.data?['message'] ??
+            exception.message ??
+            "Network error, please try again later";
+        throw RemoteExeption(message);
+      }
+      throw RemoteExeption("Unexpected error occurred");
     }
   }
 }
