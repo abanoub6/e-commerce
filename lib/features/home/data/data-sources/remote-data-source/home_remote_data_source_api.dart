@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:e_commerce_app/core/constants/constants.dart';
 import 'package:e_commerce_app/core/error/app_exepetions.dart';
@@ -16,6 +18,7 @@ class HomeRemoteDataSourceApi implements HomeRemoteDataSource {
       final response = await dio.get(ApiConstants.categoriesEndPoint);
       return CategoriesResponse.fromJson(response.data);
     } on DioException catch (error) {
+      log('Error in HomeRemoteDataSourceApi.getCategories: $error');
       throw RemoteExeption(error.message ?? 'Some thing went wrong');
     }
   }
