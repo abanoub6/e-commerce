@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:e_commerce_app/core/constants/constants.dart';
 import 'package:e_commerce_app/core/error/app_exepetions.dart';
@@ -25,20 +27,60 @@ class CartApiRemoteDataSource implements CartRemoteDataSource {
   }
 
   @override
-  Future<CartResponse> deleteFromCart(String productId) {
-    // TODO: implement deleteFromCart
-    throw UnimplementedError();
+  Future<CartResponse> deleteFromCart(String productId) async {
+    try {
+      final response = await dio.delete(
+        "${ApiConstants.cartEndPoint}/$productId",
+      );
+      log("update cart response");
+      log(response.data.toString());
+      return CartResponse.fromJson(response.data);
+    } catch (exception) {
+      log(exception.toString());
+      String? message;
+      if (exception is DioException) {
+        message = exception.response?.data['message'];
+      }
+      throw RemoteExeption(
+        message ?? 'Something went wrong, please try again later.',
+      );
+    }
   }
 
   @override
-  Future<CartResponse> getCart() {
-    // TODO: implement getCart
-    throw UnimplementedError();
+  Future<CartResponse> getCart() async {
+    try {
+      final response = await dio.get(ApiConstants.cartEndPoint);
+      log(response.data.toString());
+      return CartResponse.fromJson(response.data);
+    } catch (exception) {
+      log(exception.toString());
+      String? message;
+      if (exception is DioException) {
+        message = exception.response?.data['message'];
+      }
+      throw RemoteExeption(
+        message ?? 'Something went wrong, please try again later.',
+      );
+    }
   }
 
   @override
-  Future<CartResponse> updateCart(String productId, int quantity) {
-    // TODO: implement updateCart
-    throw UnimplementedError();
+  Future<CartResponse> updateCart(String productId, int quantity) async {
+    try {
+      final response = await dio.get("${ApiConstants.cartEndPoint}/$productId");
+      log("update cart response");
+      log(response.data.toString());
+      return CartResponse.fromJson(response.data);
+    } catch (exception) {
+      log(exception.toString());
+      String? message;
+      if (exception is DioException) {
+        message = exception.response?.data['message'];
+      }
+      throw RemoteExeption(
+        message ?? 'Something went wrong, please try again later.',
+      );
+    }
   }
 }

@@ -5,6 +5,8 @@ import 'package:e_commerce_app/features/auth/presentation/cubit/auth_cubit.dart'
 import 'package:e_commerce_app/features/auth/presentation/screens/login_screen.dart';
 import 'package:e_commerce_app/features/auth/presentation/screens/register_screen.dart';
 import 'package:e_commerce_app/core/main_screen.dart';
+import 'package:e_commerce_app/features/cart/presentation/cubit/cart_cubit.dart';
+import 'package:e_commerce_app/features/cart/presentation/screens/cart_screen.dart';
 import 'package:e_commerce_app/features/home/presentation/screens/home_screen.dart';
 import 'package:e_commerce_app/features/product-details/presentation/screens/product_details_screen.dart';
 import 'package:e_commerce_app/features/products/presentation/screens/product_screen.dart';
@@ -26,9 +28,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => serviceLocator<AuthCubit>(),
-
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthCubit>(
+          create: (context) => serviceLocator<AuthCubit>(),
+        ),
+        BlocProvider(create: (context) => serviceLocator<CartCubit>()),
+      ],
       child: ScreenUtilInit(
         designSize: const Size(360, 690),
         minTextAdapt: true,
@@ -44,6 +50,7 @@ class MyApp extends StatelessWidget {
                 ProductScreen.routeName: (context) => const ProductScreen(),
                 ProductDetailsScreen.routeName:
                     (context) => const ProductDetailsScreen(),
+                CartScreen.routeName: (context) => const CartScreen(),
               },
 
               initialRoute: HomeScreen.routeName,

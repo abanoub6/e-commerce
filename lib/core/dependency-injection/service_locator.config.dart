@@ -38,6 +38,8 @@ import 'package:e_commerce_app/features/cart/data/repository/cart_repository_imp
     as _i440;
 import 'package:e_commerce_app/features/cart/domain/repository/cart_repository.dart'
     as _i613;
+import 'package:e_commerce_app/features/cart/presentation/cubit/cart_cubit.dart'
+    as _i6;
 import 'package:e_commerce_app/features/home/data/data-sources/remote-data-source/home_remote_data_source.dart'
     as _i412;
 import 'package:e_commerce_app/features/home/data/data-sources/remote-data-source/home_remote_data_source_api.dart'
@@ -134,6 +136,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i144.GetProductsUseCase>(
       () => _i144.GetProductsUseCase(gh<_i474.ProductRepository>()),
     );
+    gh.factory<_i6.CartCubit>(() => _i6.CartCubit(gh<_i613.CartRepository>()));
     gh.factory<_i814.ProductCubit>(
       () => _i814.ProductCubit(gh<_i144.GetProductsUseCase>()),
     );

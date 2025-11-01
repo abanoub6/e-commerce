@@ -1,7 +1,9 @@
-import 'package:e_commerce_app/features/cart/data/models/cart_item.dart';
+import 'package:e_commerce_app/features/cart/data/models/cart_item_model.dart';
 import 'package:e_commerce_app/features/cart/data/models/cart_model.dart';
+import 'package:e_commerce_app/features/cart/data/models/product_cart_model.dart';
 import 'package:e_commerce_app/features/cart/domain/entities/cart_entity.dart';
 import 'package:e_commerce_app/features/cart/domain/entities/cart_item_entity.dart';
+import 'package:e_commerce_app/features/cart/domain/entities/product_cart_entity.dart';
 
 extension CartMapper on CartModel {
   CartEntity get toEntity => CartEntity(
@@ -10,7 +12,20 @@ extension CartMapper on CartModel {
   );
 }
 
-extension CartMappers on CartItem {
-  CartItemEntity get toEntity =>
-      CartItemEntity(count: count, id: id, productId: productId, price: price);
+extension CartItemMapper on CartItemModel {
+  CartItemEntity get toEntity => CartItemEntity(
+    count: count,
+    id: id,
+    product: product.toEntity,
+    price: price,
+  );
+}
+
+extension ProductCartMapper on ProductCartModel {
+  ProductCartEntity get toEntity => ProductCartEntity(
+    id: id,
+    title: title,
+    quantity: quantity,
+    imageCover: imageCover,
+  );
 }

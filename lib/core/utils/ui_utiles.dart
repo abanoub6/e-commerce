@@ -9,24 +9,26 @@ class UiUtiles {
       builder:
           (_) => PopScope(
             canPop: true,
-            child: Dialog(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const CircularProgressIndicator(),
-                    const SizedBox(width: 16),
-                    Flexible(
-                      child: Text(
-                        message ?? "Loading...",
-                        style: const TextStyle(fontSize: 16),
+            child: Center(
+              child: Dialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const CircularProgressIndicator(),
+                      const SizedBox(width: 16),
+                      Flexible(
+                        child: Text(
+                          message ?? "Loading...",
+                          style: const TextStyle(fontSize: 16),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

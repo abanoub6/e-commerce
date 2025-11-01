@@ -1,6 +1,6 @@
-import 'package:e_commerce_app/core/category.dart';
+import 'package:e_commerce_app/core/models/category.dart';
 
-import 'brand.dart';
+import '../../../../core/models/brand.dart';
 
 class Product {
   final int sold;

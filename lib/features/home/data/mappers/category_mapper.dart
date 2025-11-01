@@ -1,4 +1,4 @@
-import 'package:e_commerce_app/core/category.dart';
+import 'package:e_commerce_app/core/models/category.dart';
 import 'package:e_commerce_app/features/home/domain/entities/category_entity.dart';
 
 extension CategoryMapper on Category {

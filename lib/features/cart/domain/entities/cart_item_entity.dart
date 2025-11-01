@@ -1,8 +1,15 @@
-class CartItemEntity {
-  final int? count;
-  final String? id;
-  final String? productId;
-  final int? price;
+import 'package:e_commerce_app/features/cart/domain/entities/product_cart_entity.dart';
 
-  const CartItemEntity({this.count, this.id, this.productId, this.price});
+class CartItemEntity {
+  final int count;
+  final String? id;
+  final ProductCartEntity product;
+  final double price;
+
+  const CartItemEntity({
+    required this.count,
+    this.id,
+    required this.product,
+    required this.price,
+  });
 }

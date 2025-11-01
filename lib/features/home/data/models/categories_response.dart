@@ -1,6 +1,6 @@
-import 'package:e_commerce_app/core/metadata.dart';
+import 'package:e_commerce_app/core/models/metadata.dart';
 
-import '../../../../core/category.dart';
+import '../../../../core/models/category.dart';
 
 class CategoriesResponse {
   final int results;

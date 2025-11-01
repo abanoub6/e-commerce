@@ -2,7 +2,7 @@ import 'dart:developer';
 import 'package:e_commerce_app/features/product-details/presentation/widgets/colors_selector_widget.dart';
 import 'package:e_commerce_app/features/product-details/presentation/widgets/images_slider.dart';
 import 'package:e_commerce_app/features/product-details/presentation/widgets/quantity_selector_widget.dart';
-import 'package:e_commerce_app/features/product-details/presentation/widgets/sizes_selector_widget%20.dart';
+import 'package:e_commerce_app/features/product-details/presentation/widgets/sizes_selector_widget.dart';
 import 'package:e_commerce_app/features/products/domain/entities/product_entity.dart';
 import 'package:flutter/material.dart';
 

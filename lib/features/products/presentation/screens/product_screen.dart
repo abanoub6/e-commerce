@@ -1,5 +1,6 @@
 import 'package:e_commerce_app/core/app_theme.dart';
 import 'package:e_commerce_app/core/dependency-injection/service_locator.dart';
+import 'package:e_commerce_app/features/cart/presentation/screens/cart_screen.dart';
 import 'package:e_commerce_app/features/products/presentation/cubit/product_cubit.dart';
 import 'package:e_commerce_app/features/products/presentation/cubit/product_states.dart';
 import 'package:e_commerce_app/features/products/presentation/widgets/product_item.dart';
@@ -116,10 +117,12 @@ class _ProductScreenState extends State<ProductScreen> {
                       ),
                     ),
                     const SizedBox(width: 12),
-                    Icon(
-                      Icons.shopping_cart_outlined,
-                      color: AppTheme.primaryColor,
-                      size: 30,
+                    IconButton(
+                      onPressed:
+                          () => Navigator.of(
+                            context,
+                          ).pushNamed(CartScreen.routeName),
+                      icon: Icon(Icons.shopping_cart),
                     ),
                   ],
                 ),
