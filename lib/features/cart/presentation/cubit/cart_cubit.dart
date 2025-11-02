@@ -4,31 +4,23 @@ import 'package:e_commerce_app/features/cart/presentation/cubit/cart_cubit_state
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
-@injectable
+@LazySingleton()
 class CartCubit extends Cubit<CartCubitStates> {
   CartEntity? currentCart;
   final CartRepository cartRepository;
 
-  CartCubit(this.cartRepository) : super(CartCubitInitalState());
+  CartCubit(this.cartRepository) : super(CartCubitInitialState());
+
   Future<void> addToCart(String productId) async {
     emit(CartCubitAddLoadingState());
     final response = await cartRepository.addToCart(productId);
     response.fold(
-      (failure) {
-        emit(CartCubitAddErrorState(failure.message));
-      },
-      (_) {
-        emit(CartCubitAddSuccessState());
-      },
+      (failure) => emit(CartCubitAddErrorState(failure.message)),
+      (_) => emit(CartCubitAddSuccessState()),
     );
   }
 
   Future<void> getCart() async {
-    if (currentCart != null) {
-      emit(CartCubitGetSuccessState(currentCart!));
-      return;
-    }
-
     emit(CartCubitGetLoadingState());
     final response = await cartRepository.getCart();
     response.fold((failure) => emit(CartCubitGetErrorState(failure.message)), (
@@ -39,15 +31,14 @@ class CartCubit extends Cubit<CartCubitStates> {
     });
   }
 
-  Future<void> updateCartProductQuantity(String productId, int quanity) async {
+  Future<void> updateCartProductQuantity(String productId, int quantity) async {
     emit(CartCubitUpdateLoadingState());
-    final response = await cartRepository.updateCart(productId, quanity);
+    final response = await cartRepository.updateCart(productId, quantity);
     response.fold(
-      (failure) {
-        emit(CartCubitUpdateErrorState(failure.message));
-      },
+      (failure) => emit(CartCubitUpdateErrorState(failure.message)),
       (cart) {
-        emit(CartCubitGetSuccessState(cart));
+        currentCart = cart;
+        emit(CartCubitUpdateSuccessState(cart));
       },
     );
   }
@@ -56,11 +47,10 @@ class CartCubit extends Cubit<CartCubitStates> {
     emit(CartCubitDeleteLoadingState());
     final response = await cartRepository.deleteFromCart(productId);
     response.fold(
-      (failure) {
-        emit(CartCubitDeleteErrorState(failure.message));
-      },
+      (failure) => emit(CartCubitDeleteErrorState(failure.message)),
       (cart) {
-        emit(CartCubitGetSuccessState(cart));
+        currentCart = cart;
+        emit(CartCubitDeleteSuccessState(cart));
       },
     );
   }

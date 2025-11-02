@@ -4,7 +4,7 @@ import 'package:e_commerce_app/core/models/brand.dart';
 class ProductCartModel {
   final String id;
   final String title;
-  final int quantity;
+  final int? quantity;
   final String imageCover;
   final Category category;
   final Brand? brand;
@@ -24,7 +24,7 @@ class ProductCartModel {
     return ProductCartModel(
       id: json['_id'] as String,
       title: json['title'] as String,
-      quantity: json['quantity'] as int,
+      quantity: json['quantity'] as int?,
       imageCover: json['imageCover'] as String,
       category: Category.fromJson(json['category'] as Map<String, dynamic>),
       brand:

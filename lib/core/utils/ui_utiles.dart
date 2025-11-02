@@ -1,84 +1,113 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-class UiUtiles {
-  /// Show Loading Dialog
-  static void showLoading(BuildContext context, {String? message}) {
-    showDialog(
+class UIUtiles {
+  static BuildContext? _dialogContext;
+
+  /// 🌀 عرض نافذة التحميل الجميلة
+  static void showLoading(BuildContext context) {
+    if (_dialogContext != null) return;
+
+    showGeneralDialog(
       context: context,
       barrierDismissible: false,
-      builder:
-          (_) => PopScope(
-            canPop: true,
-            child: Center(
-              child: Dialog(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+      barrierLabel: 'Loading',
+      barrierColor: Colors.black.withValues(alpha: 0.35), // خلفية خفيفة شفافة
+      transitionDuration: const Duration(milliseconds: 250),
+      transitionBuilder: (context, anim1, anim2, child) {
+        return FadeTransition(
+          opacity: CurvedAnimation(parent: anim1, curve: Curves.easeOut),
+          child: ScaleTransition(
+            scale: CurvedAnimation(parent: anim1, curve: Curves.easeOutBack),
+            child: child,
+          ),
+        );
+      },
+      pageBuilder: (dialogCtx, _, __) {
+        _dialogContext = dialogCtx;
+        final size = MediaQuery.of(dialogCtx).size;
+
+        return Center(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxWidth: size.width * 0.35,
+              maxHeight: size.width * 0.35,
+              minWidth: 100,
+              minHeight: 100,
+            ),
+            child: Material(
+              color: Colors.transparent,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(24),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 12,
+                      offset: Offset(0, 6),
+                    ),
+                  ],
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const CircularProgressIndicator(),
-                      const SizedBox(width: 16),
-                      Flexible(
-                        child: Text(
-                          message ?? "Loading...",
-                          style: const TextStyle(fontSize: 16),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 24,
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    SizedBox(
+                      width: 45,
+                      height: 45,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 3,
+                        color: Colors.blueAccent,
+                      ),
+                    ),
+                    SizedBox(height: 18),
+                    Flexible(
+                      child: Text(
+                        "Loading...",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.black87,
+                          fontWeight: FontWeight.w500,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
           ),
+        );
+      },
     );
   }
 
-  /// Hide Loading Dialog
   static void hideLoading(BuildContext context) {
-    if (Navigator.of(context).canPop()) {
-      Navigator.of(context).pop();
+    if (_dialogContext != null) {
+      Navigator.of(_dialogContext!, rootNavigator: true).pop();
+      _dialogContext = null;
     }
   }
 
-  /// Show Message using SnackBar
-  static void showMessage(
-    BuildContext context,
-    String message, {
-    Color backgroundColor = Colors.black87,
-    Duration duration = const Duration(seconds: 2),
-  }) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: backgroundColor,
-        duration: duration,
-      ),
-    );
-  }
-
-  /// Show Alert Dialog (Optional)
-  static Future<void> showAlert(
-    BuildContext context, {
-    required String title,
-    required String message,
-    String okText = "OK",
-  }) {
-    return showDialog(
-      context: context,
-      builder:
-          (_) => AlertDialog(
-            title: Text(title),
-            content: Text(message),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: Text(okText),
-              ),
-            ],
-          ),
+  static void showMessage(String message) {
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      backgroundColor: const Color.fromARGB(
+        255,
+        58,
+        243,
+        33,
+      ).withValues(alpha: 0.85),
+      textColor: Colors.white,
+      fontSize: 14,
     );
   }
 }

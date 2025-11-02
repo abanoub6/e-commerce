@@ -1,11 +1,15 @@
 import 'package:e_commerce_app/core/app_theme.dart';
 import 'package:e_commerce_app/core/dependency-injection/service_locator.dart';
+import 'package:e_commerce_app/core/utils/ui_utiles.dart';
+import 'package:e_commerce_app/features/cart/presentation/cubit/cart_cubit.dart';
+import 'package:e_commerce_app/features/cart/presentation/cubit/cart_cubit_states.dart';
 import 'package:e_commerce_app/features/cart/presentation/screens/cart_screen.dart';
 import 'package:e_commerce_app/features/products/presentation/cubit/product_cubit.dart';
 import 'package:e_commerce_app/features/products/presentation/cubit/product_states.dart';
 import 'package:e_commerce_app/features/products/presentation/widgets/product_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class ProductScreen extends StatefulWidget {
   static const routeName = 'product-screen';
@@ -28,144 +32,121 @@ class _ProductScreenState extends State<ProductScreen> {
   Widget build(BuildContext context) {
     final categoryId = ModalRoute.of(context)!.settings.arguments as String?;
 
-    return Scaffold(
-      backgroundColor: AppTheme.white,
-      appBar: AppBar(
-        backgroundColor: AppTheme.white,
-        elevation: 0,
-        centerTitle: true,
-        title: Text(
-          "Products",
-          style: TextStyle(
-            color: AppTheme.primaryColor,
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
+    return BlocListener<CartCubit, CartCubitStates>(
+      listener: (context, state) {
+        if (state is CartCubitAddLoadingState) {
+          UIUtiles.showLoading(context);
+        } else if (state is CartCubitAddErrorState) {
+          UIUtiles.hideLoading(context);
+          UIUtiles.showMessage(state.message);
+        } else if (state is CartCubitAddSuccessState) {
+          UIUtiles.hideLoading(context);
+          UIUtiles.showMessage("Product added to cart successfully.");
+        }
+      },
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        // ✅ AppBar بنفس شكل اللي في cart screen
+        appBar: AppBar(
+          title: const Text(
+            'Products',
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           ),
+          backgroundColor: Colors.blueAccent,
+          centerTitle: true,
+          elevation: 3,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () => Navigator.pop(context),
+          ),
+          actions: [
+            IconButton(
+              icon: const Icon(
+                Icons.shopping_cart_outlined,
+                color: Colors.white,
+                size: 26,
+              ),
+              onPressed:
+                  () => Navigator.of(context).pushNamed(CartScreen.routeName),
+            ),
+          ],
         ),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: AppTheme.primaryColor, size: 28),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-      ),
-      body: BlocProvider(
-        create: (context) => productCubit..getProducts(categoryId),
-        child: BlocListener<ProductCubit, ProductStates>(
-          listener: (context, state) {
-            if (state is ProductErrorState) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.message),
-                  backgroundColor: Colors.redAccent,
-                  behavior: SnackBarBehavior.floating,
-                ),
-              );
-            }
-          },
+
+        body: BlocProvider(
+          create: (context) => productCubit..getProducts(categoryId),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 40),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "Route",
-                  style: TextStyle(
-                    color: AppTheme.primaryColor,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: SizedBox(
-                        height: 50,
-                        child: TextField(
-                          decoration: InputDecoration(
-                            hintText: "What do you search for?",
-                            hintStyle: TextStyle(
-                              color: AppTheme.primaryColor,
-                              fontSize: 18,
-                            ),
-                            prefixIcon: Padding(
-                              padding: const EdgeInsetsDirectional.only(
-                                start: 12,
-                              ),
-                              child: Icon(
-                                Icons.search,
-                                color: AppTheme.primaryColor,
-                                size: 28,
-                              ),
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(35),
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(35),
-                              ),
-                              borderSide: BorderSide(
-                                color: AppTheme.secondaryColor,
-                                width: 2,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    IconButton(
-                      onPressed:
-                          () => Navigator.of(
-                            context,
-                          ).pushNamed(CartScreen.routeName),
-                      icon: Icon(Icons.shopping_cart),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 5),
-                BlocBuilder<ProductCubit, ProductStates>(
-                  builder: (context, state) {
-                    if (state is ProductLoadingState) {
-                      return const Expanded(
-                        child: Center(child: CircularProgressIndicator()),
-                      );
-                    } else if (state is ProductSuccsessState) {
-                      return Expanded(
+                _buildSearchBar(context),
+                const SizedBox(height: 12),
+                Expanded(
+                  child: BlocBuilder<ProductCubit, ProductStates>(
+                    builder: (context, state) {
+                      final isLoading = state is ProductLoadingState;
+
+                      return Skeletonizer(
+                        enabled: isLoading,
                         child: GridView.builder(
-                          itemCount: state.products.length,
+                          physics: const BouncingScrollPhysics(),
+                          scrollDirection: Axis.vertical,
+                          padding: const EdgeInsets.only(top: 4),
+                          itemCount:
+                              state is ProductSuccsessState
+                                  ? state.products.length
+                                  : 6,
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
-                                mainAxisExtent: 270,
-                                mainAxisSpacing: 16,
-                                crossAxisSpacing: 5,
                                 crossAxisCount: 2,
+                                mainAxisSpacing: 16,
+                                crossAxisSpacing: 12,
+                                mainAxisExtent: 270,
                               ),
                           itemBuilder: (context, index) {
-                            return ProductItem(
-                              index: index,
-                              product: state.products[index],
-                            );
+                            if (state is ProductSuccsessState) {
+                              return ProductItem(
+                                index: index,
+                                product: state.products[index],
+                              );
+                            } else {
+                              return Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.shade300,
+                                  borderRadius: BorderRadius.circular(18),
+                                ),
+                              );
+                            }
                           },
                         ),
                       );
-                    } else {
-                      return const Expanded(
-                        child: Center(
-                          child: Text(
-                            "No products available",
-                            style: TextStyle(fontSize: 18),
-                          ),
-                        ),
-                      );
-                    }
-                  },
+                    },
+                  ),
                 ),
               ],
             ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSearchBar(BuildContext context) {
+    return SizedBox(
+      height: 50,
+      child: TextField(
+        decoration: InputDecoration(
+          hintText: "Search products...",
+          hintStyle: const TextStyle(color: Colors.black54, fontSize: 16),
+          prefixIcon: const Icon(
+            Icons.search,
+            color: Colors.blueAccent,
+            size: 26,
+          ),
+          filled: true,
+          fillColor: Colors.grey[100],
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+            borderSide: BorderSide.none,
           ),
         ),
       ),

@@ -114,7 +114,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   style: TextStyle(fontSize: 14, color: Colors.grey),
                 ),
                 const Spacer(),
-                QuantitySelector(onQuantityChanged: onQuantityChanged),
+                QuantitySelector(
+                  onQuantityChanged: onQuantityChanged,
+                  intialQuantity: quantityBought,
+                ),
               ],
             ),
 

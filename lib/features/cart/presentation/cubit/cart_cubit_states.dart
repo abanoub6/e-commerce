@@ -2,12 +2,12 @@ import 'package:e_commerce_app/features/cart/domain/entities/cart_entity.dart';
 
 abstract class CartCubitStates {}
 
-class CartCubitInitalState extends CartCubitStates {}
+class CartCubitInitialState extends CartCubitStates {}
 
 class CartCubitAddLoadingState extends CartCubitStates {}
 
 class CartCubitAddErrorState extends CartCubitStates {
-  String message;
+  final String message;
   CartCubitAddErrorState(this.message);
 }
 

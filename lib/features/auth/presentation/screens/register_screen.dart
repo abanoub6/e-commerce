@@ -47,127 +47,148 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return BlocListener<AuthCubit, AuthCubitStates>(
       listener: (context, state) {
         if (state is RegisterLoadingSate) {
-          UiUtiles.showLoading(context);
+          UIUtiles.showLoading(context);
         } else if (state is RegisterSucessState) {
-          UiUtiles.hideLoading(context);
+          UIUtiles.hideLoading(context);
           Navigator.pushReplacementNamed(context, HomeScreen.routeName);
         } else if (state is RegisterFailiarState) {
-          UiUtiles.hideLoading(context);
-          UiUtiles.showMessage(context, state.message);
+          UIUtiles.hideLoading(context);
+          UIUtiles.showMessage(state.message);
         }
       },
       child: Scaffold(
-        body: Center(
-          child: Form(
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            key: formKey,
-            child: Padding(
-              padding: const EdgeInsets.all(16),
+        body: Stack(
+          fit: StackFit.expand,
+          children: [
+            /// 🖼 الخلفية
+            Image.asset('assets/images/loginBackground.png', fit: BoxFit.cover),
+
+            /// 🌫 طبقة شفافة فوق الخلفية
+            Container(color: Colors.black.withValues(alpha: 0.4)),
+
+            /// 📋 المحتوى
+            Center(
               child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    // Image.asset('assets/images/routeLogo.png', height: 100.h),
-                    const SizedBox(height: 20),
-                    Text(
-                      'Create Your Account',
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.start,
-                    ),
-                    Text(
-                      'Please fill the details below',
-                      style: Theme.of(context).textTheme.bodySmall,
-                      textAlign: TextAlign.start,
-                    ),
-                    const SizedBox(height: 40),
-
-                    // Full Name
-                    CustomTextField(
-                      hintText: "Enter your full name",
-                      controller: fullNameController,
-                      validator: Validators.validateFullName,
-                      prefixIcon: Icons.person,
-                    ),
-                    const SizedBox(height: 20),
-
-                    // Phone Number
-                    CustomTextField(
-                      hintText: "Enter your phone number",
-                      controller: phoneController,
-                      validator: Validators.validatePhoneNumber,
-                      keyboardType: TextInputType.phone,
-                      prefixIcon: Icons.phone,
-                    ),
-                    const SizedBox(height: 20),
-
-                    // Email
-                    CustomTextField(
-                      hintText: "Enter your email",
-                      controller: emailController,
-                      validator: Validators.validateEmail,
-                      keyboardType: TextInputType.emailAddress,
-                      prefixIcon: Icons.email,
-                    ),
-                    const SizedBox(height: 20),
-
-                    // Password
-                    CustomTextField(
-                      hintText: "Enter your password",
-                      controller: passwordController,
-                      validator: Validators.validatePassword,
-                      obscureText: isObscure,
-                      prefixIcon: Icons.lock,
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          isObscure ? Icons.visibility_off : Icons.visibility,
-                          color: AppTheme.primaryColor,
+                padding: const EdgeInsets.all(16),
+                child: Form(
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  key: formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      // 🛍 شعار التطبيق
+                      Text(
+                        'ShopZone',
+                        style: TextStyle(
+                          fontSize: 34.sp,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          letterSpacing: 1.5,
                         ),
-                        onPressed: () {
-                          setState(() {
-                            isObscure = !isObscure;
-                          });
-                        },
+                        textAlign: TextAlign.center,
                       ),
-                    ),
+                      const SizedBox(height: 10),
+                      Text(
+                        'Create Your Account',
+                        style: TextStyle(
+                          fontSize: 18.sp,
+                          color: Colors.white70,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 40),
 
-                    const SizedBox(height: 50),
+                      // Full Name
+                      CustomTextField(
+                        hintText: "Enter your full name",
+                        controller: fullNameController,
+                        validator: Validators.validateFullName,
+                        prefixIcon: Icons.person,
+                      ),
+                      const SizedBox(height: 20),
 
-                    // Register Button
-                    CustomElevatedButton(text: "Sign Up", onPressed: register),
+                      // Phone Number
+                      CustomTextField(
+                        hintText: "Enter your phone number",
+                        controller: phoneController,
+                        validator: Validators.validatePhoneNumber,
+                        keyboardType: TextInputType.phone,
+                        prefixIcon: Icons.phone,
+                      ),
+                      const SizedBox(height: 20),
 
-                    const SizedBox(height: 20),
+                      // Email
+                      CustomTextField(
+                        hintText: "Enter your email",
+                        controller: emailController,
+                        validator: Validators.validateEmail,
+                        keyboardType: TextInputType.emailAddress,
+                        prefixIcon: Icons.email,
+                      ),
+                      const SizedBox(height: 20),
 
-                    Center(
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context); // ⬅️ يرجع للـ Login
-                        },
-                        child: RichText(
-                          text: TextSpan(
-                            text: "Already have an account? ",
-                            style: TextStyle(color: Colors.white, fontSize: 14),
-                            children: [
-                              TextSpan(
-                                text: "Login",
-                                style: TextStyle(
-                                  color: Colors.green,
-                                  fontSize: 18.sp,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                      // Password
+                      CustomTextField(
+                        hintText: "Enter your password",
+                        controller: passwordController,
+                        validator: Validators.validatePassword,
+                        obscureText: isObscure,
+                        prefixIcon: Icons.lock,
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            isObscure ? Icons.visibility_off : Icons.visibility,
+                            color: AppTheme.primaryColor,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              isObscure = !isObscure;
+                            });
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 40),
+
+                      // Register Button
+                      CustomElevatedButton(
+                        text: "Sign Up",
+                        onPressed: register,
+                      ),
+                      const SizedBox(height: 20),
+
+                      // 🔙 الرجوع للـ Login
+                      Center(
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: RichText(
+                            text: TextSpan(
+                              text: "Already have an account? ",
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
                               ),
-                            ],
+                              children: [
+                                TextSpan(
+                                  text: "Login",
+                                  style: TextStyle(
+                                    color: Colors.greenAccent.shade400,
+                                    fontSize: 18.sp,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
+          ],
         ),
       ),
     );

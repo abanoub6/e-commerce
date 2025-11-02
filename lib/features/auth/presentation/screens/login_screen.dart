@@ -40,123 +40,148 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // listen to AuthCubit states
-    // مش فارقه اعرف ال listener فين لانه هيشتغل في كل الاحوال لان انا  مبعملش rebuild لل widget
     return BlocListener<AuthCubit, AuthCubitStates>(
       listener: (context, state) {
         if (state is LoginLoadingSate) {
-          UiUtiles.showLoading(context);
+          UIUtiles.showLoading(context);
         } else if (state is LoginSucessState) {
-          UiUtiles.hideLoading(context);
+          UIUtiles.hideLoading(context);
           Navigator.pushReplacementNamed(context, HomeScreen.routeName);
         } else if (state is LoginFailiarState) {
-          UiUtiles.hideLoading(context);
-          UiUtiles.showMessage(context, state.message);
+          UIUtiles.hideLoading(context);
+          UIUtiles.showMessage(state.message);
         }
       },
       child: Scaffold(
-        body: Center(
-          child: Form(
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            key: formKey,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  // Image.asset('assets/images/routeLogo.png', height: 100),
-                  const SizedBox(height: 20),
-                  Text(
-                    'Welcome Back To Route',
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-                    textAlign: TextAlign.start,
-                  ),
-                  Text(
-                    'Please login to your account',
-                    style: Theme.of(context).textTheme.bodySmall,
-                    textAlign: TextAlign.start,
-                  ),
-                  const SizedBox(height: 80),
-
-                  // Email
-                  CustomTextField(
-                    hintText: "Enter your email",
-                    controller: emailController,
-                    validator: Validators.validateEmail,
-                    prefixIcon: Icons.email,
-                  ),
-                  const SizedBox(height: 40),
-
-                  // Password
-                  CustomTextField(
-                    hintText: "Enter your password",
-                    controller: passwordController,
-                    validator: Validators.validatePassword,
-                    obscureText: isObscure,
-                    prefixIcon: Icons.lock,
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        isObscure ? Icons.visibility_off : Icons.visibility,
-                        color: AppTheme.primaryColor,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          isObscure = !isObscure;
-                        });
-                      },
-                    ),
-                  ),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          "forgot password",
-                          style: Theme.of(context).textTheme.bodySmall,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 70),
-
-                  // Login Button
-                  CustomElevatedButton(text: "Login", onPressed: login),
-                  const SizedBox(height: 20),
-                  Center(
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, RegisterScreen.routeName);
-                      },
-                      child: RichText(
-                        text: TextSpan(
-                          text: "Don't have an account? ",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14.sp,
-                          ),
-                          children: [
-                            TextSpan(
-                              text: "Sign Up",
-                              style: TextStyle(
-                                color: Colors.green,
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+        body: Stack(
+          children: [
+            Positioned.fill(
+              child: Image.asset(
+                'assets/images/loginBackground.png',
+                fit: BoxFit.cover,
               ),
             ),
-          ),
+
+            Container(color: Colors.black.withValues(alpha: 0.4)),
+
+            Center(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 40.h),
+                child: Form(
+                  key: formKey,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      /// 🛍️ Logo + Title
+                      Column(
+                        children: [
+                          Text(
+                            "ShopZone",
+                            style: TextStyle(
+                              fontSize: 30.sp,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 1.5,
+                            ),
+                          ),
+                          SizedBox(height: 6.h),
+                          Text(
+                            "Welcome Back To ShopZone!",
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              color: Colors.white70,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: 50.h),
+                        ],
+                      ),
+
+                      /// ✉️ Email Field
+                      CustomTextField(
+                        hintText: "Enter your email",
+                        controller: emailController,
+                        validator: Validators.validateEmail,
+                        prefixIcon: Icons.email,
+                      ),
+                      SizedBox(height: 25.h),
+
+                      /// 🔒 Password Field
+                      CustomTextField(
+                        hintText: "Enter your password",
+                        controller: passwordController,
+                        validator: Validators.validatePassword,
+                        obscureText: isObscure,
+                        prefixIcon: Icons.lock,
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            isObscure ? Icons.visibility_off : Icons.visibility,
+                            color: AppTheme.primaryColor,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              isObscure = !isObscure;
+                            });
+                          },
+                        ),
+                      ),
+
+                      /// 🔁 Forgot Password
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: TextButton(
+                          onPressed: () {},
+                          child: Text(
+                            "Forgot password?",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 40.h),
+
+                      /// 🚀 Login Button
+                      CustomElevatedButton(text: "Login", onPressed: login),
+                      SizedBox(height: 25.h),
+
+                      /// 🧾 Sign Up Redirect
+                      Center(
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(
+                              context,
+                              RegisterScreen.routeName,
+                            );
+                          },
+                          child: RichText(
+                            text: TextSpan(
+                              text: "Don't have an account? ",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14.sp,
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: "Sign Up",
+                                  style: TextStyle(
+                                    color: Colors.greenAccent,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 40.h),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
